@@ -14,7 +14,7 @@ read password
 #Display the values for the variables that were set
 echo ""
 echo "*****************************************************************"
-echo " The following details will be used to configure the CIFS share: "
+echo " The following details will be used to configure the SMB share: "
 echo ""
 echo "    Hostname:" $hostname
 echo "    Share:   " $share
@@ -51,7 +51,7 @@ sudo apt -y install cifs-utils && sudo apt -y install autofs
 echo "------------------------"
 echo "--Creating mount point--"
 echo "------------------------"
-sudo mkdir /mnt/cifs
+sudo mkdir /mnt/smb
 
 
 #Create credential file, set user/pass, and set permissions
@@ -70,7 +70,7 @@ sudo chmod 600 /etc/.credentials/$share
 echo "-----------------------------------------------"
 echo "--Configuring auto.master and auto.smb.shares--"
 echo "-----------------------------------------------"
-echo "/mnt/cifs /etc/auto.smb.shares --timeout 15 browse" | sudo tee -a /etc/auto.master
+echo "/mnt/smb /etc/auto.smb.shares --timeout 15 browse" | sudo tee -a /etc/auto.master
 sudo touch /etc/auto.smb.shares
 echo $share" -fstype=cifs,rw,credentials=/etc/.credentials/"$share",noperm ://"$hostname"/"$share | sudo tee -a /etc/auto.smb.shares
 
@@ -87,5 +87,5 @@ echo "**************************************************"
 echo "***************   SETUP COMPLETE   ***************"
 echo "**************************************************"
 echo ""
-echo "CIFS share is at /mnt/cifs/"$share
+echo "SMB share is at /mnt/smb/"$share
 echo ""
